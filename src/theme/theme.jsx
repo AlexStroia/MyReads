@@ -29,6 +29,7 @@ const theme = responsiveFontSizes(createTheme({
         },
         primary: {
             main: '#2B37D4',//indigo
+            white: "#FFFFFF", // white
         },
         secondary: {
             main: '#E769A6',//pink
