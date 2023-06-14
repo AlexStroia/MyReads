@@ -22,6 +22,20 @@ const theme = responsiveFontSizes(createTheme({
             fontSize: '2.5rem',
             fontFamily: 'Roboto',
         },
+        h4: {
+            fontSize: '2rem',
+            fontFamily: 'Open Sans',
+            fontWeight: 'bold',
+          },
+          body1: {
+            fontSize: '1.2rem',
+            fontFamily: 'Roboto',
+          },
+          subtitle1: {
+            fontSize: '1.0rem',
+            fontFamily: 'Raleway',
+            fontStyle: 'italic',
+          },
     },
     palette: {
         background: {
