@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import theme from "../theme/theme";
+import theme from "../theme/Theme";
 import Typography from "@material-ui/core/Typography";
 import BookIcon from "@material-ui/icons/Book";
 
@@ -11,13 +11,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.primary,
   },
-  bookEmoji : {
-    fontSize: '3.5rem'
+  bookEmoji: {
+    fontSize: "3.5rem",
   },
-  appbarTitle : {
-    display : 'flex',
-    justifyContent: 'center'
-  }
+  appbarTitle: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 const AppBar = () => {
