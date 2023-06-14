@@ -3,7 +3,8 @@ const api = "https://reactnd-books-api.udacity.com";
 class BooksApi {
   constructor() {
     this.token = localStorage.token;
-    if (!this.token) this.token = localStorage.token = Math.random().toString(36).substr(-8);
+    if (!this.token)
+      this.token = localStorage.token = Math.random().toString(36).substr(-8);
     this.headers = {
       Accept: "application/json",
       Authorization: this.token,
@@ -11,7 +12,9 @@ class BooksApi {
   }
 
   async get(bookId) {
-    const res = await fetch(`${api}/books/${bookId}`, { headers: this.headers });
+    const res = await fetch(`${api}/books/${bookId}`, {
+      headers: this.headers,
+    });
     const data = await res.json();
     return data.book;
   }

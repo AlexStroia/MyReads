@@ -32,13 +32,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Book = ({ book }) => {
+const Book = ({ key, book }) => {
   const styles = useStyles();
   const imageUrl = book.imageUrl;
   const title = book.title;
   const author = book.author;
   return (
-    <Card>
+    <Card key={key}>
       <div className={styles.bookContainer}>
         <div className={styles.imageContainer}>
           <img

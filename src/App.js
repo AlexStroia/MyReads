@@ -30,17 +30,15 @@ function App() {
   return (
     <DependencyProvider
       dependencies={dependencies}
-      children=
-        <ThemeProvider theme={theme}>
-          <div className="MyReads">
-            <AppBar />
-            <Book book={book} />
-            <div style={styles.fabContainer}>
-              <FabButton />
-            </div>
+      children=<ThemeProvider theme={theme}>
+        <div className="MyReads">
+          <AppBar />
+          <Book book={book} />
+          <div style={styles.fabContainer}>
+            <FabButton />
           </div>
-        </ThemeProvider>
-      
+        </div>
+      </ThemeProvider>
     ></DependencyProvider>
   );
 }
