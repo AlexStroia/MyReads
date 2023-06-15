@@ -1,15 +1,15 @@
 import { Typography, makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme) => ({
   h3: {
-    textAlign: "start";
-    color: theme.palette.text.secondary;
+    textAlign: "start",
+    color: theme.palette.text.secondary,
   }
-});
+}));
 
-const Header = (title) => {
+const Header = ({title}) => {
   const styles = useStyles();
-  return <Typography className={styles.h3} variant="h3"></Typography>;
+  return <Typography className={styles.h3} variant="h3">{title}</Typography>
 };
 
 export default Header;

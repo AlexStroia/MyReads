@@ -32,13 +32,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Book = ({ key, book }) => {
+const Book = ({ book }) => {
   const styles = useStyles();
-  const imageUrl = book.imageUrl;
+  const imageUrl = book.imageLinks.smallThumbnail;
   const title = book.title;
-  const author = book.author;
+  const bookAuthor = book.authors;
+  let author;
+
+  let authors = book.authors.join(', ')
+
   return (
-    <Card key={key}>
+    <Card>
       <div className={styles.bookContainer}>
         <div className={styles.imageContainer}>
           <img
@@ -53,7 +57,7 @@ const Book = ({ key, book }) => {
         </div>
         <Typography variant="body1">{title}</Typography>
         <Typography className={styles.author} variant="subtitle1">
-          {author}
+          {authors}
         </Typography>
       </div>
     </Card>

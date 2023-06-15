@@ -7,7 +7,7 @@ import FabButton from "./components/FabButton";
 import Book from "./components/Book";
 import { DependencyProvider } from "./di/DependencyProvider";
 import BooksApi from "./api/BooksApi";
-
+import BooksList from "./components/BooksList";
 const styles = {
   fabContainer: {
     position: "fixed",
@@ -33,7 +33,7 @@ function App() {
       children=<ThemeProvider theme={theme}>
         <div className="MyReads">
           <AppBar />
-          <Book book={book} />
+          <BooksList />
           <div style={styles.fabContainer}>
             <FabButton />
           </div>
