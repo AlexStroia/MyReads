@@ -4,6 +4,7 @@ import Header from "./Header";
 import { useDependencies } from "../di/DependencyProvider";
 import { makeStyles } from "@material-ui/core/styles";
 import Spinner from "./Spinner";
+import Popup from "./Popup";
 
 const useStyles = makeStyles((theme) => ({
   booksList: {
@@ -33,6 +34,11 @@ const BooksList = () => {
   const [booksData, setBooksData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const [selectedBook, setSelectedBook] = useState(null);
+
   const fetchBooks = async () => {
     setLoading(true);
     const fetchedBooks = await booksApi.getAll();
@@ -56,29 +62,74 @@ const BooksList = () => {
     setBooksData(books);
   };
 
+  const closePopup = () => {
+    setIsOpen(false);
+    setSelectedBook(null);
+  };
+
+  const openPopup = (event, book) => {
+    const targetRect = event.target.getBoundingClientRect();
+    const centerX = targetRect.left + targetRect.width / 2;
+    const centerY = targetRect.top + targetRect.height / 2;
+    setIsOpen(true);
+    setSelectedBook(book);
+    setPosition({ x: centerX, y: centerY });
+  };
+
+  const handleOnTapWantToRead = () => {
+
+   //TODO Tomorrow
+  };
+  
+  function updateBook(updatedBooks) {
+    const booksWantToReadIndex = booksData.findIndex((section) => section.header === 'Want To Read');
+    
+    
+    if (booksWantToReadIndex !== -1) {
+      const updatedBooksData = [
+        ...booksData.slice(0, booksWantToReadIndex),
+        { ...booksData[booksWantToReadIndex], books: [...updatedBooks, selectedBook] },
+        ...booksData.slice(booksWantToReadIndex + 1),
+      ];
+      
+      setBooksData(updatedBooksData);
+    }
+  }
+  
+
+
   useEffect(() => {
     fetchBooks();
   }, []);
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <div className={styles.booksList}>
-      {loading ? (
-        <Spinner />
-      ) : (
-        booksData &&
+      {booksData &&
         booksData.map((bookSection, sectionIndex) => (
           <div key={sectionIndex} className={styles.bookSection}>
             <Header title={bookSection.header} />
             <div className={styles.bookGrid}>
               {bookSection.books.map((book, bookIndex) => (
                 <div key={bookIndex} className={styles.bookItem}>
-                  <Book book={book} />
+                  <Book
+                    book={book}
+                    onButtonTap={(event) => openPopup(event, book)}
+                  />
                 </div>
               ))}
             </div>
+            <Popup
+              onTapCurrentlyReading={() => {}}
+              onTapRead={() => {}}
+              onTapWantToRead={handleOnTapWantToRead}
+              isOpen={isOpen}
+              onRequestClose={closePopup}
+              position={position}
+            />
           </div>
-        ))
-      )}
+        ))}
     </div>
   );
 };

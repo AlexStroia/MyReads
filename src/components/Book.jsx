@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     "&:hover": {
-      backgroundColor: theme.palette.background.default
+      backgroundColor: theme.palette.background.default,
     },
     borderRadius: "50%",
     width: "56px",
@@ -35,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Book = ({ book }) => {
+const Book = ({ book, onButtonTap }) => {
   const styles = useStyles();
   const imageUrl = book.imageLinks.smallThumbnail;
   const title = book.title;
   const bookAuthors = book.authors;
-  const authors = bookAuthors.join(', ')
+  const authors = bookAuthors.join(", ");
 
   return (
     <Card>
@@ -52,7 +52,11 @@ const Book = ({ book }) => {
             height="300"
             alt="Book Cover Image"
           />
-          <Button className={styles.button} variant="contained">
+          <Button
+            className={styles.button}
+            variant="contained"
+            onClick={(event) => onButtonTap(event)}
+          >
             {<InfoIcon />}
           </Button>
         </div>
