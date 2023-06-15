@@ -67,36 +67,18 @@ const BooksList = () => {
     setSelectedBook(null);
   };
 
-  const openPopup = (event, book) => {
+  function openPopup(event, book) {
     const targetRect = event.target.getBoundingClientRect();
     const centerX = targetRect.left + targetRect.width / 2;
     const centerY = targetRect.top + targetRect.height / 2;
     setIsOpen(true);
     setSelectedBook(book);
     setPosition({ x: centerX, y: centerY });
-  };
-
-  const handleOnTapWantToRead = () => {
-
-   //TODO Tomorrow
-  };
-  
-  function updateBook(updatedBooks) {
-    const booksWantToReadIndex = booksData.findIndex((section) => section.header === 'Want To Read');
-    
-    
-    if (booksWantToReadIndex !== -1) {
-      const updatedBooksData = [
-        ...booksData.slice(0, booksWantToReadIndex),
-        { ...booksData[booksWantToReadIndex], books: [...updatedBooks, selectedBook] },
-        ...booksData.slice(booksWantToReadIndex + 1),
-      ];
-      
-      setBooksData(updatedBooksData);
-    }
   }
-  
 
+  function handleOnTapWantToRead() {
+    //TODO Tomorrow
+  }
 
   useEffect(() => {
     fetchBooks();
