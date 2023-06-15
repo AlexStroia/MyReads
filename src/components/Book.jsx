@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
   },
   button: {
+    "&:hover": {
+      backgroundColor: theme.palette.background.default
+    },
     borderRadius: "50%",
     width: "56px",
     height: "56px",
@@ -36,10 +39,8 @@ const Book = ({ book }) => {
   const styles = useStyles();
   const imageUrl = book.imageLinks.smallThumbnail;
   const title = book.title;
-  const bookAuthor = book.authors;
-  let author;
-
-  let authors = book.authors.join(', ')
+  const bookAuthors = book.authors;
+  const authors = bookAuthors.join(', ')
 
   return (
     <Card>

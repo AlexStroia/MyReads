@@ -3,6 +3,7 @@ import Book from "./Book";
 import Header from "./Header";
 import { useDependencies } from "../di/DependencyProvider";
 import { makeStyles } from "@material-ui/core/styles";
+import Spinner from "./Spinner";
 
 const useStyles = makeStyles((theme) => ({
   booksList: {
@@ -25,14 +26,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BooksList = () => {
+  const styles = useStyles();
   const dependencies = useDependencies();
   const booksApi = dependencies.booksApi;
 
-  const styles = useStyles();
-
   const [booksData, setBooksData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchBooks = async () => {
+    setLoading(true);
     const fetchedBooks = await booksApi.getAll();
     const books = [
       {
@@ -50,8 +52,7 @@ const BooksList = () => {
         ),
       },
     ];
-
-    console.log(books);
+    setLoading(false);
     setBooksData(books);
   };
 
@@ -61,7 +62,10 @@ const BooksList = () => {
 
   return (
     <div className={styles.booksList}>
-      {booksData &&
+      {loading ? (
+        <Spinner />
+      ) : (
+        booksData &&
         booksData.map((bookSection, sectionIndex) => (
           <div key={sectionIndex} className={styles.bookSection}>
             <Header title={bookSection.header} />
@@ -73,7 +77,8 @@ const BooksList = () => {
               ))}
             </div>
           </div>
-        ))}
+        ))
+      )}
     </div>
   );
 };
