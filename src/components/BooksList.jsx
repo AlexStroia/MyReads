@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import Header from "./Header";
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
     gridGap: theme.spacing(2),
+    justifyItems: "center", // Added to center the books horizontally in each column
   },
   bookItem: {
     width: "100%",
@@ -63,10 +65,10 @@ const BooksList = () => {
     setBooksData(books);
   };
 
-  const closePopup = () => {
+  function closePopup() {
     setIsOpen(false);
     setSelectedBook(null);
-  };
+  }
 
   function openPopup(event, book) {
     const targetRect = event.target.getBoundingClientRect();
@@ -77,42 +79,42 @@ const BooksList = () => {
     setPosition({ x: centerX, y: centerY });
   }
 
-  // function handleOnTapWantToRead() {
-  //   const shelf = selectedBook.shelf;
-  //   const title = selectedBook.title;
-
-  //   const headersMap = {
-  //     "read":  "Read",
-  //     "wantToRead" : "Want To Read",
-  //     "currentlyReading": "Currently Reading"
-  //   }
-  
-  //   const updatedBooksData = booksData.map((bookSection) => ({
-  //     ...bookSection, 
-  //     books: bookSection.header === headersMap[shelf] ? bookSection.books.filter((book) => book.title !== title) : bookSection.books
-  //   }));
-
-  //   updatedBooksData[0].books.push(selectedBook);
-  //   setBooksData(updatedBooksData);  
-  // }
-
   function handleOnPopupOptionMenu(index) {
     const shelf = selectedBook.shelf;
     const title = selectedBook.title;
 
     const headersMap = {
-      "read":  "Read",
-      "wantToRead" : "Want To Read",
-      "currentlyReading": "Currently Reading"
-    }
-  
+      wantToRead: "Want To Read",
+      read: "Read",
+      currentlyReading: "Currently Reading",
+    };
+
+    const shelfsMap = {
+      "Want To Read": "wantToRead",
+      "Read": "read",
+      "Currently Reading": "currentlyReading",
+    };
+
     const updatedBooksData = booksData.map((bookSection) => ({
-      ...bookSection, 
-      books: bookSection.header === headersMap[shelf] ? bookSection.books.filter((book) => book.title !== title) : bookSection.books
+      ...bookSection,
+      books:
+        bookSection.header === headersMap[shelf]
+          ? bookSection.books.filter((book) => {
+              return (
+                book.title.trim().toLowerCase() !== title.trim().toLowerCase()
+              );
+            })
+          : bookSection.books,
     }));
 
-    updatedBooksData[index].books.push(selectedBook);
-    setBooksData(updatedBooksData);  
+    if (!updatedBooksData[index].books.includes(selectedBook)) {
+      const futureShelf = shelfsMap[updatedBooksData[index].header];
+      selectedBook.shelf = futureShelf;
+      updatedBooksData[index].books.push(selectedBook);
+    }
+    setBooksData(updatedBooksData);
+
+    closePopup();
   }
 
   useEffect(() => {

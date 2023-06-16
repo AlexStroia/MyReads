@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
   },
   bookContainer: {
+    height: "400px",
+    width: "200px",
     padding: "16px 16px 16px 16px",
     flexDirection: "column",
     textAlign: "center",
@@ -50,6 +52,7 @@ const Book = ({ book, onButtonTap }) => {
             src={imageUrl}
             className={styles.image}
             height="300"
+            width= "200"
             alt="Book Cover Image"
           />
           <Button
