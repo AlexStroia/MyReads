@@ -32,6 +32,7 @@ const BooksList = () => {
   const styles = useStyles();
   const dependencies = useDependencies();
   const booksApi = dependencies.booksApi;
+  const localStorageService = dependencies.localStorageService;
 
   const [booksData, setBooksData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,8 +63,19 @@ const BooksList = () => {
       },
     ];
     setLoading(false);
-    setBooksData(books);
+    saveToLocalStorage(JSON.stringify(books));
+    const storedBooks = JSON.parse(getFromLocalStorage());
+
+    setBooksData(storedBooks);
   };
+
+  function saveToLocalStorage(books) {
+    localStorageService.setItem("books", books);
+  }
+
+  function getFromLocalStorage() {
+    return localStorageService.getItem("books");
+  }
 
   function closePopup() {
     setIsOpen(false);
@@ -91,7 +103,7 @@ const BooksList = () => {
 
     const shelfsMap = {
       "Want To Read": "wantToRead",
-      "Read": "read",
+      Read: "read",
       "Currently Reading": "currentlyReading",
     };
 
@@ -113,6 +125,7 @@ const BooksList = () => {
       updatedBooksData[index].books.push(selectedBook);
     }
     setBooksData(updatedBooksData);
+    localStorageService.setItem("books", updatedBooksData);
 
     closePopup();
   }

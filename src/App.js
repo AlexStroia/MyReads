@@ -8,6 +8,7 @@ import Book from "./components/Book";
 import { DependencyProvider } from "./di/DependencyProvider";
 import BooksApi from "./api/BooksApi";
 import BooksList from "./components/BooksList";
+import LocalStorageService from "./service/LocalStorageService";
 const styles = {
   fabContainer: {
     position: "fixed",
@@ -18,6 +19,7 @@ const styles = {
 
 const dependencies = {
   booksApi: new BooksApi(),
+  localStorageService: new LocalStorageService()
 };
 
 function App() {
