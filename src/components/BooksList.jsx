@@ -42,6 +42,7 @@ const BooksList = () => {
   const fetchBooks = async () => {
     setLoading(true);
     const fetchedBooks = await booksApi.getAll();
+
     const books = [
       {
         header: "Want To Read",
@@ -76,8 +77,42 @@ const BooksList = () => {
     setPosition({ x: centerX, y: centerY });
   }
 
-  function handleOnTapWantToRead() {
-    //TODO Tomorrow
+  // function handleOnTapWantToRead() {
+  //   const shelf = selectedBook.shelf;
+  //   const title = selectedBook.title;
+
+  //   const headersMap = {
+  //     "read":  "Read",
+  //     "wantToRead" : "Want To Read",
+  //     "currentlyReading": "Currently Reading"
+  //   }
+  
+  //   const updatedBooksData = booksData.map((bookSection) => ({
+  //     ...bookSection, 
+  //     books: bookSection.header === headersMap[shelf] ? bookSection.books.filter((book) => book.title !== title) : bookSection.books
+  //   }));
+
+  //   updatedBooksData[0].books.push(selectedBook);
+  //   setBooksData(updatedBooksData);  
+  // }
+
+  function handleOnPopupOptionMenu(index) {
+    const shelf = selectedBook.shelf;
+    const title = selectedBook.title;
+
+    const headersMap = {
+      "read":  "Read",
+      "wantToRead" : "Want To Read",
+      "currentlyReading": "Currently Reading"
+    }
+  
+    const updatedBooksData = booksData.map((bookSection) => ({
+      ...bookSection, 
+      books: bookSection.header === headersMap[shelf] ? bookSection.books.filter((book) => book.title !== title) : bookSection.books
+    }));
+
+    updatedBooksData[index].books.push(selectedBook);
+    setBooksData(updatedBooksData);  
   }
 
   useEffect(() => {
@@ -103,9 +138,9 @@ const BooksList = () => {
               ))}
             </div>
             <Popup
-              onTapCurrentlyReading={() => {}}
-              onTapRead={() => {}}
-              onTapWantToRead={handleOnTapWantToRead}
+              onTapCurrentlyReading={() => handleOnPopupOptionMenu(2)}
+              onTapRead={() => handleOnPopupOptionMenu(1)}
+              onTapWantToRead={() => handleOnPopupOptionMenu(0)}
               isOpen={isOpen}
               onRequestClose={closePopup}
               position={position}
