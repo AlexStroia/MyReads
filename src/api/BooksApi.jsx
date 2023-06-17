@@ -38,13 +38,14 @@ class BooksApi {
   }
 
   async search(query, maxResults) {
+    console.log("Query is " + query)
     const res = await fetch(`${api}/search`, {
       method: "POST",
       headers: {
         ...this.headers,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query, maxResults }),
+      body: JSON.stringify({ query, maxResults: maxResults || 'Max' }),
     });
     const data = await res.json();
     return data.books;

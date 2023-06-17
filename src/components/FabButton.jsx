@@ -10,10 +10,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FabButton = () => {
+const FabButton = ({onClick}) => {
   const styles = useStyles();
   return (
-    <Fab className={styles.fab} aria-label="add">
+    <Fab 
+    onClick={onClick}
+    className={styles.fab} aria-label="add">
       <AddIcon className={styles.addIcon} />
     </Fab>
   );

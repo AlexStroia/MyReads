@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
   popupContent: {
-    boxShadow: "0px 2px 4px 4gba(0,0,0,0.2)",
+    width: "400px",
+    boxShadow: "2px 2px 4px 4gba(2,2,2,0.2)",
     position: "fixed",
     display: "flex",
     flexDirection: "column",
@@ -22,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: "8px",
     marginBottom: "8px",
-  },
-  transparentBackdrop: {
-    backgroundColor: "transparent",
   },
 }));
 
@@ -63,14 +61,6 @@ const Popup = ({
             variant="contained"
             color="primary"
             className={styles.popupOptionButton}
-            onClick={() => onTapCurrentlyReading()}
-          >
-            Currently Reading
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={styles.popupOptionButton}
             onClick={() => onTapWantToRead()}
           >
             Want to Read
@@ -82,6 +72,14 @@ const Popup = ({
             onClick={() => onTapRead()}
           >
             Read
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={styles.popupOptionButton}
+            onClick={() => onTapCurrentlyReading()}
+          >
+            Currently Reading
           </Button>
         </div>
       </Fade>

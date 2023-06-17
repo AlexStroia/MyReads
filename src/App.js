@@ -3,26 +3,21 @@ import "./App.css";
 import AppBar from "./components/AppBar";
 import { ThemeProvider, makeStyles } from "@material-ui/core";
 import theme from "./theme/Theme";
-import FabButton from "./components/FabButton";
-import Book from "./components/Book";
 import { DependencyProvider } from "./di/DependencyProvider";
 import BooksApi from "./api/BooksApi";
 import BooksList from "./components/BooksList";
 import LocalStorageService from "./service/LocalStorageService";
-const styles = {
-  fabContainer: {
-    position: "fixed",
-    bottom: theme.spacing(5),
-    right: theme.spacing(5),
-  },
-};
+import { Route, Routes, useNavigate } from "react-router-dom";
+import Search from "./components/Search";
 
 const dependencies = {
   booksApi: new BooksApi(),
-  localStorageService: new LocalStorageService()
+  localStorageService: new LocalStorageService(),
 };
 
 function App() {
+  let navigate = useNavigate();
+
   const book = {
     imageUrl:
       "https://www.shutterstock.com/image-vector/education-concept-stack-colored-books-260nw-587795549.jpg",
@@ -33,13 +28,25 @@ function App() {
     <DependencyProvider
       dependencies={dependencies}
       children=<ThemeProvider theme={theme}>
-        <div className="MyReads">
-          <AppBar />
-          <BooksList />
-          <div style={styles.fabContainer}>
-            <FabButton />
-          </div>
-        </div>
+        <Routes>
+        <Route
+            exact
+            path="/"
+            element={
+              <div>
+                <AppBar title = "My Reads 📚" />
+                <BooksList onTapSearch={() => navigate('/search')} />
+              </div>
+            }
+          />
+              <Route
+            exact
+            path="/search"
+            element={
+              <Search/>
+            }
+          />
+        </Routes>
       </ThemeProvider>
     ></DependencyProvider>
   );

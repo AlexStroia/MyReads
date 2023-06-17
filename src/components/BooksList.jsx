@@ -1,13 +1,19 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, } from "react";
 import Book from "./Book";
 import Header from "./Header";
+import FabButton from "./FabButton";
 import { useDependencies } from "../di/DependencyProvider";
 import { makeStyles } from "@material-ui/core/styles";
 import Spinner from "./Spinner";
 import Popup from "./Popup";
 
 const useStyles = makeStyles((theme) => ({
+  fabContainer: {
+    position: "fixed",
+    bottom: theme.spacing(5),
+    right: theme.spacing(5),
+  },
   booksList: {
     margin: "16px",
   },
@@ -28,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BooksList = () => {
+const BooksList = ({onTapSearch}) => {
   const styles = useStyles();
   const dependencies = useDependencies();
   const booksApi = dependencies.booksApi;
@@ -83,9 +89,11 @@ const BooksList = () => {
   }
 
   function openPopup(event, book) {
-    const targetRect = event.target.getBoundingClientRect();
-    const centerX = targetRect.left + targetRect.width / 2;
-    const centerY = targetRect.top + targetRect.height / 2;
+    const popupWidth = 400; // Adjust this value according to your popup's width
+    const popupHeight = 200; // Adjust this value according to your popup's height
+  
+    const centerX = (window.innerWidth - popupWidth) / 2;
+    const centerY = (window.innerHeight - popupHeight) / 2;
     setIsOpen(true);
     setSelectedBook(book);
     setPosition({ x: centerX, y: centerY });
@@ -160,6 +168,11 @@ const BooksList = () => {
               onRequestClose={closePopup}
               position={position}
             />
+                <div className={styles.fabContainer}>
+                  <FabButton
+                  onClick={onTapSearch}
+                  />
+                </div>
           </div>
         ))}
     </div>
