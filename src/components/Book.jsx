@@ -52,7 +52,7 @@ const Book = ({ book, onButtonTap }) => {
             src={imageUrl}
             className={styles.image}
             height="300"
-            width= "200"
+            width="200"
             alt="Book Cover Image"
           />
           <Button

@@ -5,7 +5,6 @@ class LocalStorageService {
   }
 
   setItem(key,value){
-    console.log("Setting");
     return localStorage.setItem(key,value)
   }
 

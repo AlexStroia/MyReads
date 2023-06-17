@@ -8,7 +8,7 @@ import BooksApi from "./api/BooksApi";
 import BooksList from "./components/BooksList";
 import LocalStorageService from "./service/LocalStorageService";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Search from "./components/Search";
+import SearchList from "./components/SearchList";
 
 const dependencies = {
   booksApi: new BooksApi(),
@@ -29,23 +29,17 @@ function App() {
       dependencies={dependencies}
       children=<ThemeProvider theme={theme}>
         <Routes>
-        <Route
+          <Route
             exact
             path="/"
             element={
               <div>
-                <AppBar title = "My Reads 📚" />
-                <BooksList onTapSearch={() => navigate('/search')} />
+                <AppBar title="My Reads 📚" />
+                <BooksList onTapSearch={() => navigate("/search")} />
               </div>
             }
           />
-              <Route
-            exact
-            path="/search"
-            element={
-              <Search/>
-            }
-          />
+          <Route exact path="/search" element={<SearchList />} />
         </Routes>
       </ThemeProvider>
     ></DependencyProvider>

@@ -38,7 +38,6 @@ class BooksApi {
   }
 
   async search(query, maxResults) {
-    console.log("Query is " + query)
     const res = await fetch(`${api}/search`, {
       method: "POST",
       headers: {

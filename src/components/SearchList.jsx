@@ -1,13 +1,19 @@
-import React from "react";
 import { TextField, makeStyles } from "@material-ui/core";
 import AppBar from "./AppBar";
 import { useDependencies } from "../di/DependencyProvider";
 import { debounce } from "lodash";
-import { useState, } from "react";
-import BooksList from "./BooksList";
+import React, { useState, useRef } from "react";
 import Spinner from "./Spinner";
+import SearchBook from "./SearchBook";
+import NoResult from "./NoResult";
 
 const useStyles = makeStyles((theme) => ({
+  bookGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+    rowGap: theme.spacing(2),
+    gap: theme.spacing(5),
+  },
   inputWrapper: {
     marginLeft: "16px",
     marginRight: "16px",
@@ -31,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Search = () => {
+const SearchList = () => {
   const styles = useStyles();
   const dependencies = useDependencies();
   const booksApi = dependencies.booksApi;
@@ -42,16 +48,23 @@ const Search = () => {
   async function handleSearchBook(event) {
     setLoading(true);
     const value = event.target.value;
-    // const result =      await booksApi.search(value);
-    const result = await debounceSearch(value);
-
+    console.log("Value is " + value);
+    if (!value) {
+      setBooksData([]);
       setLoading(false);
-    console.log(result);
+      debounceSearch.current.cancel();
+    } else {
+      await debounceSearch.current(value);
+      setLoading(false);
+    }
   }
 
-  const debounceSearch = debounce(async (value) => {
-    return await booksApi.search(value);
-  }, 500);
+  const debounceSearch = useRef(
+    debounce(async (value) => {
+      const result = await booksApi.search(value);
+      setBooksData(result);
+    }, 500)
+  );
 
   return (
     <div className="search-content">
@@ -63,9 +76,25 @@ const Search = () => {
           placeholder="Search"
         />
       </div>
-      loading ? <Spinner/> : <div>Nothing</div>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div className="searched-books">
+          {Array.isArray(booksData) ? (
+            <ul>
+              <div className={styles.bookGrid}>
+                {booksData.map((book, index) => (
+                  <SearchBook book={book} />
+                ))}
+              </div>
+            </ul>
+          ) : (
+            <NoResult />
+          )}
+        </div>
+      )}
     </div>
   );
 };
 
-export default Search;
+export default SearchList;
