@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState, } from "react";
+import { useEffect, useState } from "react";
 import Book from "./Book";
 import Header from "./Header";
 import FabButton from "./FabButton";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BooksList = ({onTapSearch}) => {
+const BooksList = ({ onTapSearch }) => {
   const styles = useStyles();
   const dependencies = useDependencies();
   const booksApi = dependencies.booksApi;
@@ -49,34 +49,41 @@ const BooksList = ({onTapSearch}) => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   const fetchBooks = async () => {
-    setLoading(true);
-    const fetchedBooks = await booksApi.getAll();
+    const localStorageJson = getFromLocalStorage();
+    console.log(`${localStorageJson}`)
+    const storedBooks2 = JSON.parse(getFromLocalStorage());
+    console.log("Is arr " + storedBooks2);
+    if (Array.isArray(storedBooks2)) {
+      setBooksData(storedBooks2);
+    } else {
+      setLoading(true);
+      const fetchedBooks = await booksApi.getAll();
 
-    const books = [
-      {
-        header: "Want To Read",
-        books: fetchedBooks.filter((value) => value.shelf === "wantToRead"),
-      },
-      {
-        header: "Read",
-        books: fetchedBooks.filter((value) => value.shelf === "read"),
-      },
-      {
-        header: "Currently Reading",
-        books: fetchedBooks.filter(
-          (value) => value.shelf === "currentlyReading"
-        ),
-      },
-    ];
-    setLoading(false);
-    saveToLocalStorage(JSON.stringify(books));
-    const storedBooks = JSON.parse(getFromLocalStorage());
+      const books = [
+        {
+          header: "Want To Read",
+          books: fetchedBooks.filter((value) => value.shelf === "wantToRead"),
+        },
+        {
+          header: "Read",
+          books: fetchedBooks.filter((value) => value.shelf === "read"),
+        },
+        {
+          header: "Currently Reading",
+          books: fetchedBooks.filter(
+            (value) => value.shelf === "currentlyReading"
+          ),
+        },
+      ];
+      setLoading(false);
+      saveToLocalStorage(books);
 
-    setBooksData(storedBooks);
+      setBooksData(books);
+    }
   };
 
   function saveToLocalStorage(books) {
-    localStorageService.setItem("books", books);
+    localStorageService.setItem("books", JSON.stringify(books));
   }
 
   function getFromLocalStorage() {
@@ -91,7 +98,7 @@ const BooksList = ({onTapSearch}) => {
   function openPopup(event, book) {
     const popupWidth = 400; // Adjust this value according to your popup's width
     const popupHeight = 200; // Adjust this value according to your popup's height
-  
+
     const centerX = (window.innerWidth - popupWidth) / 2;
     const centerY = (window.innerHeight - popupHeight) / 2;
     setIsOpen(true);
@@ -133,7 +140,7 @@ const BooksList = ({onTapSearch}) => {
       updatedBooksData[index].books.push(selectedBook);
     }
     setBooksData(updatedBooksData);
-    localStorageService.setItem("books", updatedBooksData);
+    saveToLocalStorage(updatedBooksData);
 
     closePopup();
   }
@@ -168,11 +175,9 @@ const BooksList = ({onTapSearch}) => {
               onRequestClose={closePopup}
               position={position}
             />
-                <div className={styles.fabContainer}>
-                  <FabButton
-                  onClick={onTapSearch}
-                  />
-                </div>
+            <div className={styles.fabContainer}>
+              <FabButton onClick={onTapSearch} />
+            </div>
           </div>
         ))}
     </div>
