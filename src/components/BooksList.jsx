@@ -49,38 +49,35 @@ const BooksList = ({ onTapSearch }) => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   const fetchBooks = async () => {
-    const localStorageJson = getFromLocalStorage();
-    console.log(`${localStorageJson}`)
-    const storedBooks2 = JSON.parse(getFromLocalStorage());
-    console.log("Is arr " + storedBooks2);
-    if (Array.isArray(storedBooks2)) {
-      setBooksData(storedBooks2);
-    } else {
-      setLoading(true);
-      const fetchedBooks = await booksApi.getAll();
+    setLoading(true);
+    const fetchedBooks = await booksApi.getAll();
 
-      const books = [
-        {
-          header: "Want To Read",
-          books: fetchedBooks.filter((value) => value.shelf === "wantToRead"),
-        },
-        {
-          header: "Read",
-          books: fetchedBooks.filter((value) => value.shelf === "read"),
-        },
-        {
-          header: "Currently Reading",
-          books: fetchedBooks.filter(
-            (value) => value.shelf === "currentlyReading"
-          ),
-        },
-      ];
-      setLoading(false);
-      saveToLocalStorage(books);
+    const books = [
+      {
+        header: "Want To Read",
+        books: fetchedBooks.filter((value) => value.shelf === "wantToRead"),
+      },
+      {
+        header: "Read",
+        books: fetchedBooks.filter((value) => value.shelf === "read"),
+      },
+      {
+        header: "Currently Reading",
+        books: fetchedBooks.filter(
+          (value) => value.shelf === "currentlyReading"
+        ),
+      },
+    ];
+    setLoading(false);
+    saveToLocalStorage(books);
 
-      setBooksData(books);
-    }
+    setBooksData(books);
   };
+
+  const update = async(book,shelf) => {
+      const result = await booksApi.update(book,shelf)
+      console.log(result);
+  }
 
   function saveToLocalStorage(books) {
     localStorageService.setItem("books", JSON.stringify(books));
@@ -96,8 +93,8 @@ const BooksList = ({ onTapSearch }) => {
   }
 
   function openPopup(event, book) {
-    const popupWidth = 400; // Adjust this value according to your popup's width
-    const popupHeight = 200; // Adjust this value according to your popup's height
+    const popupWidth = 400;
+    const popupHeight = 200; 
 
     const centerX = (window.innerWidth - popupWidth) / 2;
     const centerY = (window.innerHeight - popupHeight) / 2;
@@ -136,6 +133,7 @@ const BooksList = ({ onTapSearch }) => {
 
     if (!updatedBooksData[index].books.includes(selectedBook)) {
       const futureShelf = shelfsMap[updatedBooksData[index].header];
+      update(selectedBook, futureShelf)
       selectedBook.shelf = futureShelf;
       updatedBooksData[index].books.push(selectedBook);
     }

@@ -42,14 +42,8 @@ const Popup = ({
       open={isOpen}
       onClose={onRequestClose}
       closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-        className: styles.transparentBackdrop,
-      }}
     >
-      <Fade in={isOpen} innerRef={popupRef}>
-        <div
+        <div ref = {popupRef}
           className={styles.popupContent}
           style={{
             top: position.y,
@@ -82,7 +76,6 @@ const Popup = ({
             Currently Reading
           </Button>
         </div>
-      </Fade>
     </Modal>
   );
 };
