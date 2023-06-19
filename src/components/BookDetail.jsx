@@ -40,7 +40,6 @@ const BookDetail = () => {
   const getBook = async () => {
     setLoading(true);
     const bookData = await booksApi.get(id);
-    console.log(bookData);
     setBook(bookData);
     setLoading(false);
   };
@@ -56,7 +55,7 @@ const BookDetail = () => {
         <Spinner />
       ) : (
         <div className={styles.appBar}>
-          <AppBar title={book?.title} />
+          <AppBar title={book?.title ?? ''} />
           <div className={styles.bookContent}>
             <Card>
             <img
