@@ -6,9 +6,6 @@ This is the final project for the Udacity React Nanodegree program. MyReads is a
 
 - [Project Description](#project-description)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Project Description
 
