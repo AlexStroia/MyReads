@@ -75,15 +75,16 @@ const Popup = ({
           Currently Reading
         </Button>
 
-        {onTapNone &&  <Button
-          variant="contained"
-          color="primary"
-          className={styles.popupOptionButton}
-          onClick={() => onTapNone()}
-        >
-          None
-        </Button>}
-        
+        {onTapNone && (
+          <Button
+            variant="contained"
+            color="primary"
+            className={styles.popupOptionButton}
+            onClick={() => onTapNone()}
+          >
+            None
+          </Button>
+        )}
       </div>
     </Modal>
   );

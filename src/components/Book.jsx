@@ -46,40 +46,47 @@ const Book = ({ book, onTapButton, onTapBook }) => {
 
   const handleOnTapBook = (id) => {
     onTapBook(id);
-  }
+  };
+
+  const handleOnTapButton = (event) => {
+    event.stopPropagation();
+    onTapButton(event);
+  };
 
   return (
-    <Card onTap={() => handleOnTapBook(book.id)}>
-      <div className={styles.bookContainer}>
-        <div className={styles.imageContainer}>
-          <img
-            src={imageUrl}
-            className={styles.image}
-            height="300"
-            width="200"
-            alt={title}
-          />
-          <Button
-            className={styles.button}
-            variant="contained"
-            onClick={(event) => onTapButton(event)}
-          >
-            {<InfoIcon />}
-          </Button>
+    <div>
+      <Card onTap={() => handleOnTapBook(book.id)}>
+        <div className={styles.bookContainer}>
+          <div className={styles.imageContainer}>
+            <img
+              src={imageUrl}
+              className={styles.image}
+              height="300"
+              width="200"
+              alt={title}
+            />
+            <Button
+              className={styles.button}
+              variant="contained"
+              onClick={handleOnTapButton}
+            >
+              <InfoIcon />
+            </Button>
+          </div>
+          <Typography variant="body1">{title}</Typography>
+          <Typography className={styles.author} variant="subtitle1">
+            {authors}
+          </Typography>
         </div>
-        <Typography variant="body1">{title}</Typography>
-        <Typography className={styles.author} variant="subtitle1">
-          {authors}
-        </Typography>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 };
 
 export default Book;
 
 Book.propTypes = {
-  book : PropTypes.object.isRequired,
+  book: PropTypes.object.isRequired,
   onTapButton: PropTypes.func.isRequired,
   onTapBook: PropTypes.func.isRequired,
-}
+};

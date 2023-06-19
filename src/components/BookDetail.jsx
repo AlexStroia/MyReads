@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   bookContent: {
+    padding: '16px',
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

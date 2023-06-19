@@ -139,14 +139,14 @@ const BooksList = ({ onTapSearch, onTapBook }) => {
     closePopup();
   }
 
-  const handleOnTapBook =  (id) => {
-    onTapBook(id)
-  }
-
   useEffect(() => {
     fetchBooks();
       // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
+
+  const handleOnTapBook =  (id) => {
+    onTapBook(id)
+  }
 
   return loading ? (
     <Spinner />
