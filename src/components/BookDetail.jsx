@@ -14,13 +14,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   bookContent: {
-    padding: '16px',
+    padding: "16px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   bookCover: {
-    padding: '16px',
+    padding: "16px",
     width: "200px",
     height: "300px",
   },
@@ -55,14 +55,14 @@ const BookDetail = () => {
         <Spinner />
       ) : (
         <div className={styles.appBar}>
-          <AppBar title={book?.title ?? ''} />
+          <AppBar title={book?.title ?? ""} />
           <div className={styles.bookContent}>
             <Card>
-            <img
-              src={book?.imageLinks?.thumbnail}
-              alt="Book Cover"
-              className={styles.bookCover}
-            />
+              <img
+                src={book?.imageLinks?.thumbnail}
+                alt="Book Cover"
+                className={styles.bookCover}
+              />
             </Card>
             <Typography variant="h5">{book?.title}</Typography>
             <Typography variant="subtitle1">
