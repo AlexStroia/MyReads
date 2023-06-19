@@ -1,6 +1,6 @@
 # MyReads Project
 
-This is the final project for the Udacity React Nanodegree program. MyReads is a book tracking app that allows you to categorize books into different shelves: "Currently Reading", "Want to Read", and "Read".
+ MyReads is a book tracking app that allows you to categorize books into different shelves: "Currently Reading", "Want to Read", and "Read".
 
 ## Table of Contents
 
