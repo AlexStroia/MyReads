@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core";
+import PropTypes from "prop-types";
 const useStyles = makeStyles({
   card: {
     borderRadius: "10px",
@@ -8,9 +9,23 @@ const useStyles = makeStyles({
   },
 });
 
-const Card = ({ children }) => {
+const Card = ({ children, onTap }) => {
   const styles = useStyles();
-  return <div className={styles.card}>{children}</div>;
+
+  const handleClick = () => {
+    if(onTap != null) {
+      onTap();
+    }
+  }
+
+  return <div 
+  onClick={handleClick}
+  className={styles.card}>{children}</div>;
 };
 
 export default Card;
+
+Card.propTypes = {
+  children: PropTypes.node,
+  onTap: PropTypes.func,
+};

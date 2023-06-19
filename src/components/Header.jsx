@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, makeStyles } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   h3: {
@@ -22,3 +23,7 @@ const Header = ({ title }) => {
 };
 
 export default Header;
+
+Header.propTypes =  {
+  title: PropTypes.string.isRequired
+}

@@ -7,6 +7,7 @@ import { useDependencies } from "../di/DependencyProvider";
 import { makeStyles } from "@material-ui/core/styles";
 import Spinner from "./Spinner";
 import Popup from "./Popup";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   fabContainer: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BooksList = ({ onTapSearch }) => {
+const BooksList = ({ onTapSearch, onTapBook }) => {
   const styles = useStyles();
   const dependencies = useDependencies();
   const booksApi = dependencies.booksApi;
@@ -75,16 +76,11 @@ const BooksList = ({ onTapSearch }) => {
   };
 
   const update = async(book,shelf) => {
-      const result = await booksApi.update(book,shelf)
-      console.log(result);
+      await booksApi.update(book,shelf)
   }
 
   function saveToLocalStorage(books) {
     localStorageService.setItem("books", JSON.stringify(books));
-  }
-
-  function getFromLocalStorage() {
-    return localStorageService.getItem("books");
   }
 
   function closePopup() {
@@ -143,9 +139,14 @@ const BooksList = ({ onTapSearch }) => {
     closePopup();
   }
 
+  const handleOnTapBook =  (id) => {
+    onTapBook(id)
+  }
+
   useEffect(() => {
     fetchBooks();
-  }, []);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   return loading ? (
     <Spinner />
@@ -160,7 +161,8 @@ const BooksList = ({ onTapSearch }) => {
                 <div key={bookIndex} className={styles.bookItem}>
                   <Book
                     book={book}
-                    onButtonTap={(event) => openPopup(event, book)}
+                    onTapButton={(event) => openPopup(event, book)}
+                    onTapBook={handleOnTapBook}
                   />
                 </div>
               ))}
@@ -183,3 +185,8 @@ const BooksList = ({ onTapSearch }) => {
 };
 
 export default BooksList;
+
+BooksList.propTypes = {
+  onTapSearch: PropTypes.func.isRequired,
+  onTapBook: PropTypes.func.isRequired,
+}

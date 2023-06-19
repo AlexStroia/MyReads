@@ -1,4 +1,4 @@
-import { Button, TextField, makeStyles } from "@material-ui/core";
+import { TextField, makeStyles } from "@material-ui/core";
 import AppBar from "./AppBar";
 import { useDependencies } from "../di/DependencyProvider";
 import { debounce } from "lodash";
@@ -94,12 +94,10 @@ const SearchList = () => {
   );
 
   async function handleOnTap(index) {
-    const shelfs = ['wantToRead', 'read', 'currentlyReading'];
+    const shelfs = ["wantToRead", "read", "currentlyReading"];
     const books = booksData;
     setLoading(true);
-    console.log(selectedBook);
-    const result = await booksApi.update(selectedBook, shelfs[index]);
-    console.log(result);
+    await booksApi.update(selectedBook, shelfs[index]);
     setLoading(false);
     setBooksData(books);
     closePopup();
@@ -113,7 +111,7 @@ const SearchList = () => {
 
   return (
     <div className="search-content">
-      <AppBar title="Search" emoji="🔍"/>
+      <AppBar title="Search" emoji="🔍" />
       <div className={styles.inputWrapper}>
         <TextField
           onChange={handleSearchBook}
@@ -142,6 +140,7 @@ const SearchList = () => {
             <NoResult />
           )}
           <Popup
+          onTapNone={() => closePopup()}
             isOpen={isPopupOpen}
             onRequestClose={() => closePopup()}
             position={position}
@@ -156,9 +155,9 @@ const SearchList = () => {
             }}
           />
           <SnackBar
-          message = 'Saved with success'
-          isOpen= {isSnackbarShowing}
-          handleCloseSnackBar = {() => hideSnackbar()}
+            message="Saved with success"
+            isOpen={isSnackbarShowing}
+            handleCloseSnackBar={() => hideSnackbar()}
           ></SnackBar>
         </div>
       )}

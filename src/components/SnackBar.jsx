@@ -1,6 +1,7 @@
-import React from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
+import React from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
 
 const SnackBar = ({ message, isOpen, handleCloseSnackBar }) => {
   const snackbarRef = React.useRef(null);
@@ -19,6 +20,12 @@ const SnackBar = ({ message, isOpen, handleCloseSnackBar }) => {
       }
     />
   );
+};
+
+SnackBar.propTypes = {
+  message: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  handleCloseSnackBar: PropTypes.func.isRequired,
 };
 
 export default SnackBar;

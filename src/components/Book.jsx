@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Typography, makeStyles } from "@material-ui/core";
 import Card from "./Card";
 import InfoIcon from "@material-ui/icons/Info";
-
+import PropTypes from "prop-types";
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
     boxShadow: "0px 2px 4px 4gba(0,0,0,0.2)",
@@ -37,15 +37,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Book = ({ book, onButtonTap }) => {
+const Book = ({ book, onTapButton, onTapBook }) => {
   const styles = useStyles();
   const imageUrl = book.imageLinks.smallThumbnail;
   const title = book.title;
   const bookAuthors = book.authors;
   const authors = bookAuthors.join(", ");
 
+  const handleOnTapBook = (id) => {
+    onTapBook(id);
+  }
+
   return (
-    <Card>
+    <Card onTap={() => handleOnTapBook(book.id)}>
       <div className={styles.bookContainer}>
         <div className={styles.imageContainer}>
           <img
@@ -53,12 +57,12 @@ const Book = ({ book, onButtonTap }) => {
             className={styles.image}
             height="300"
             width="200"
-            alt="Book Cover Image"
+            alt={title}
           />
           <Button
             className={styles.button}
             variant="contained"
-            onClick={(event) => onButtonTap(event)}
+            onClick={(event) => onTapButton(event)}
           >
             {<InfoIcon />}
           </Button>
@@ -73,3 +77,9 @@ const Book = ({ book, onButtonTap }) => {
 };
 
 export default Book;
+
+Book.propTypes = {
+  book : PropTypes.object.isRequired,
+  onTapButton: PropTypes.func.isRequired,
+  onTapBook: PropTypes.func.isRequired,
+}

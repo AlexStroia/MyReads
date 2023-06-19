@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Typography, makeStyles } from "@material-ui/core";
 import Card from "./Card";
 import AddIcon from "@material-ui/icons/Add";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   author: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "16px",
     display: "flex",
     height: "300px",
-    width: '200px',
+    width: "200px",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -50,18 +51,18 @@ const useStyles = makeStyles((theme) => ({
 
 const notAvailableUrl = "https://cdn-icons-png.flaticon.com/512/16/16096.png";
 
-const SearchBook = ({ book, onTapAdd}) => {
+const SearchBook = ({ book, onTapAdd }) => {
   const styles = useStyles();
   const imageUrl =
     book.imageLinks != null ? book.imageLinks.smallThumbnail : notAvailableUrl;
   const title = book.title;
-  const authors = book.authors != null ? book.authors.join(',') : '';
+  const authors = book.authors != null ? book.authors.join(",") : "";
 
   return (
     <Card>
       <div className={styles.bookContainer}>
         <div className={styles.imageContainer}>
-          <img src={imageUrl} className={styles.image} alt="Book Cover Image" />
+          <img src={imageUrl} className={styles.image} alt={title} />
           <Button
             className={styles.button}
             variant="contained"
@@ -80,3 +81,7 @@ const SearchBook = ({ book, onTapAdd}) => {
 };
 
 export default SearchBook;
+SearchBook.propTypes = {
+  book: PropTypes.object.isRequired,
+  onTapAdd: PropTypes.func.isRequired,
+};

@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -37,3 +38,8 @@ const AppBar = ({title, emoji}) => {
 };
 
 export default AppBar;
+
+AppBar.propTypes =  {
+  title: PropTypes.string.isRequired,
+  emoji: PropTypes.string
+}

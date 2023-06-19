@@ -1,7 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import AppBar from "./components/AppBar";
-import { ThemeProvider, makeStyles } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core";
 import theme from "./theme/Theme";
 import { DependencyProvider } from "./di/DependencyProvider";
 import BooksApi from "./api/BooksApi";
@@ -9,6 +8,7 @@ import BooksList from "./components/BooksList";
 import LocalStorageService from "./service/LocalStorageService";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SearchList from "./components/SearchList";
+import BookDetail from "./components/BookDetail";
 
 const dependencies = {
   booksApi: new BooksApi(),
@@ -17,17 +17,9 @@ const dependencies = {
 
 function App() {
   let navigate = useNavigate();
-
-  const book = {
-    imageUrl:
-      "https://www.shutterstock.com/image-vector/education-concept-stack-colored-books-260nw-587795549.jpg",
-    title: "title",
-    author: "author",
-  };
   return (
-    <DependencyProvider
-      dependencies={dependencies}
-      children=<ThemeProvider theme={theme}>
+    <DependencyProvider dependencies={dependencies}>
+      <ThemeProvider theme={theme}>
         <Routes>
           <Route
             exact
@@ -35,14 +27,21 @@ function App() {
             element={
               <div>
                 <AppBar title="My Reads 📚" />
-                <BooksList onTapSearch={() => navigate("/search")} />
+                <BooksList
+                  onTapSearch={() => navigate("/search")}
+                  onTapBook={(id) => navigate(`/detail/${id}`)}
+                />
               </div>
             }
           />
-          <Route exact path="/search" element={<SearchList />} />
+          <Route path="/search" element={<SearchList />} />
+          <Route
+            path="/detail/:id"
+            element={<BookDetail/>}
+          />
         </Routes>
       </ThemeProvider>
-    ></DependencyProvider>
+    </DependencyProvider>
   );
 }
 
