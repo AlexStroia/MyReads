@@ -26,5 +26,5 @@ To get started with the project, follow these steps:
 
 ## Usage
 
-After completing the installation steps, you can run the following command to start the development server:
+After completing the installation steps, you can run the following command to start the development server: `npm start`
 
